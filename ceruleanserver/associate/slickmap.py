@@ -20,9 +20,8 @@ import pandas as pd
 
 from utils.associate import associate_ais_to_slicks, slicks_to_curves
 from utils.constants import (DATA_DIR, AIS_DIR, SLICK_DIR, TRUTH_FILE,
-                             HOURS_BEFORE, NUM_TIMESTEPS,
-                             BUF_START, BUF_END, BUF_VEC,
-                             WEIGHT_START, WEIGHT_END, WEIGHT_VEC)
+                             HOURS_BEFORE, NUM_TIMESTEPS, BUF_VEC)
+                             
 from utils.gee import get_s1_tile_layer
 from utils.misc import build_time_vec, get_utm_zone
 from utils.trajectory import ais_points_to_trajectories, buffer_trajectories
@@ -236,7 +235,6 @@ class SlickMap:
         self.ais_gdf_buf, self.ais_weighted = buffer_trajectories(
             self.ais_trajectories, 
             BUF_VEC, 
-            WEIGHT_VEC
         )
 
         # associate slick to AIS trajectories

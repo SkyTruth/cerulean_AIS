@@ -60,8 +60,7 @@ def ais_points_to_trajectories(ais: gpd.GeoDataFrame, time_vec: pd.DatetimeIndex
 
 
 def buffer_trajectories(ais: mpd.TrajectoryCollection,
-                        buf_vec: np.ndarray,
-                        weight_vec: np.ndarray) -> gpd.GeoDataFrame:
+                        buf_vec: np.ndarray) -> gpd.GeoDataFrame:
     """
     Build conic buffers around each trajectory
     Buffer is narrowest at the start and widest at the end
@@ -93,10 +92,10 @@ def buffer_trajectories(ais: mpd.TrajectoryCollection,
 
         # weight convex hulls
         weighted = list()
-        for c, w in zip(convex_hulls, weight_vec):
+        for cidx, c in enumerate(convex_hulls):
             entry = dict()
             entry['geometry'] = c
-            entry['weight'] = w
+            entry['weight'] = 1.0 / (cidx + 1) # weight is the inverse of the index
             weighted.append(entry)
         weighted = gpd.GeoDataFrame(weighted, crs=traj.crs)
         ais_weighted.append(weighted)

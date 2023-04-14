@@ -74,8 +74,8 @@ def compute_temporal_score(weighted_traj: gpd.GeoDataFrame, slick: shapely.geome
     
     temporal_score = 0.0
     if ~matches.empty:
-        # take the max weight of the matches
-        temporal_score = matches['weight'].max()
+        # take the sum of the weights of the matched convex hulls
+        temporal_score = matches['weight'].sum()
 
     return temporal_score
 
@@ -97,6 +97,7 @@ def compute_overlap_score(buffered_traj: shapely.geometry.Polygon, slick: shapel
 def compute_total_score(temporal_score: float, overlap_score: float, frechet_dist: float):
     """
     Compute the total score by combining the temporal score, overlap score, and frechet distance
+    The final weights were determined by a coarse grid search
 
     Args:
         temporal_score (float): temporal score between a weighted AIS trajectory and an oil slick
@@ -105,6 +106,6 @@ def compute_total_score(temporal_score: float, overlap_score: float, frechet_dis
     Returns:
         float: total weighted score between a weighted AIS trajectory and an oil slick
     """
-    total_score = 1.5*temporal_score + 1.0*overlap_score + 1000.0/frechet_dist
+    total_score = 0.8*temporal_score + 1.4*overlap_score + 5000.0/frechet_dist
     return total_score
 

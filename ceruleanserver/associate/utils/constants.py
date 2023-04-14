@@ -14,7 +14,7 @@ NUM_TIMESTEPS = 120
 
 # buffering parameters for AIS trajectories
 BUF_START = 5000
-BUF_END = 15000
+BUF_END = (BUF_START * HOURS_BEFORE) / 4
 BUF_VEC = np.linspace(BUF_START, BUF_END, NUM_TIMESTEPS)
 
 # weighting parameters for AIS trajectories
